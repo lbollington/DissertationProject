@@ -4,10 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/activity_login.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/button_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_background.png_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_button_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/white_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_dentist.xml" value="0.264" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/mipmap-anydpi-v26/top_background.png.xml" value="0.26614583333333336" />
       </map>
     </option>
   </component>
