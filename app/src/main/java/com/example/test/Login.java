@@ -88,6 +88,10 @@ public class Login extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 }
+                if (documentSnapshot.getString("isAdmin") != null) {
+                    startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                    finish();
+                }
             }
         });
     }
@@ -117,6 +121,10 @@ public class Login extends AppCompatActivity {
                     }
                     if(documentSnapshot.getString("isPatient") != null){
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                    if(documentSnapshot.getString("isAdmin") != null){
+                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                         finish();
                     }
                 }

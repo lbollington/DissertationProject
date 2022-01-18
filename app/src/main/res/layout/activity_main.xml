@@ -9,30 +9,30 @@
 
     <ImageView
         android:id="@+id/topBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription"
+        android:layout_width="418dp"
+        android:layout_height="740dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/top_background" />
+        app:srcCompat="@drawable/dentist_background_top" />
 
     <ImageView
         android:id="@+id/profilePicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="295dp"
+        android:layout_height="145dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile_new" />
+        app:srcCompat="@drawable/profile_pic" />
 
     <TextView
         android:id="@+id/nameDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Jamie Bollington"
-        android:textColor="#ffffff"
+        android:textColor="#5917e1"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/profilePicture"
@@ -44,8 +44,7 @@
         android:id="@+id/emailDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="jbollington@gmail.com"
-        android:textColor="#ffffff"
+        android:textColor="#5917e1"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/nameDisplay"
         app:layout_constraintStart_toStartOf="@+id/nameDisplay"
@@ -167,14 +166,12 @@
                 android:textColor="#5917e1"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/appointmentSign"
+            <Button
+                android:id="@+id/btnRequestApp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="="
-                android:textAlignment="viewEnd"
-                android:textColor="#5b5b5b"
+                android:text="+"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -201,14 +198,12 @@
                 android:textColor="#5917e1"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/viewAppointmentSign"
+            <Button
+                android:id="@+id/btnViewApp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="="
-                android:textAlignment="viewEnd"
-                android:textColor="#5b5b5b"
+                android:text="+"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -231,18 +226,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View dental records"
+                android:text="View dental history"
                 android:textColor="#5917e1"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/viewDentalInfoSign"
+            <Button
+                android:id="@+id/btnViewDentHist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="="
-                android:textAlignment="viewEnd"
-                android:textColor="#5b5b5b"
+                android:text="+"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -254,70 +247,12 @@
             android:alpha="0.5"
             android:background="#585858" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/clinicAddressDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Address of clinic:"
-                android:textColor="#5917e1"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/clinicAddressDisplayText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="19 Glenshiel Rd, SE9 1AQ"
-                android:textAlignment="viewEnd"
-                android:textColor="#5b5b5b"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.5"
-            android:background="#585858" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/clinicPhoneDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Contact Number:"
-                android:textColor="#5917e1"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="07445860869"
-                android:textAlignment="viewEnd"
-                android:textColor="#5b5b5b"
-                android:textSize="18sp" />
-        </LinearLayout>
-
 
     </LinearLayout>
 
+
     <Button
-        android:id="@+id/logoutBtn"
+        android:id="@+id/logoutPatientBtn"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@drawable/button_background"
@@ -331,6 +266,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.306" />
+        app:layout_constraintVertical_bias="0.154" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

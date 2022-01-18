@@ -5,14 +5,23 @@
       <map>
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/activity_login.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/button_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_background.png_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/top_button_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/drawable/white_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_admin.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_dentist.xml" value="0.264" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_notify.xml" value="0.22554347826086957" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_register_patient.xml" value="0.2296195652173913" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_request_app.xml" value="0.22554347826086957" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_schedule.xml" value="0.25" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_schedule2.xml" value="0.25" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/layout/activity_schedule_patient.xml" value="0.2296195652173913" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/mipmap-anydpi-v26/top_background.png.xml" value="0.26614583333333336" />
       </map>
     </option>

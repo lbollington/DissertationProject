@@ -12,106 +12,326 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/topBackground"
+            tools:ignore="ContentDescription"
+            android:layout_width="418dp"
+            android:layout_height="740dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dentist_background" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="731dp">
+            android:layout_width="400dp"
+            android:layout_height="718dp">
 
-            <EditText
-                android:id="@+id/registerName"
-                android:layout_width="375dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="Full Name"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.542"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/registerEmail"
-                android:layout_width="375dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="28dp"
-                android:ems="10"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/white_background"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/registerBtn"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerName" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/registerPassword"
-                android:layout_width="375dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="24dp"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.487"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
 
-            <EditText
-                android:id="@+id/registerPhone"
-                android:layout_width="375dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="Phone Number"
-                android:inputType="phone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
 
-            <CheckBox
-                android:id="@+id/isDentist"
-                android:layout_width="179dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:text="Register as Dentist"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.118"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerPhone" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/isPatient"
-                android:layout_width="179dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:text="Register as Patient"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.935"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerPhone" />
+                    <EditText
+                        android:id="@+id/registerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Full name:"
+                        android:inputType="textPersonName"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/registerEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Email address:"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/registerPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Password:"
+                        android:inputType="textPassword"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Password should be"
+                    android:textColor="#5917e1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardOne"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:cardBackgroundColor="#dcdcdc"
+                        app:cardCornerRadius="25dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_baseline_check_24" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center|start"
+                        android:text="At least 8 characters"
+                        android:textColor="#5917e1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardTwo"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:cardBackgroundColor="#dcdcdc"
+                        app:cardCornerRadius="25dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_baseline_check_24" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center|start"
+                        android:text="Minimum one uppercase"
+                        android:textColor="#5917e1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardThree"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:cardBackgroundColor="#dcdcdc"
+                        app:cardCornerRadius="25dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_baseline_check_24" />
+
+                    </androidx.cardview.widget.CardView>
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center|start"
+                        android:text="Minimum one number"
+                        android:textColor="#5917e1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardFour"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:cardBackgroundColor="#dcdcdc"
+                        app:cardCornerRadius="25dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_baseline_check_24" />
+                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center|start"
+                        android:text="Minimum one symbol"
+                        android:textColor="#5917e1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/registerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Phone number:"
+                        android:inputType="phone"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/isDentist"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+                        android:hint="Dentist"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.052"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="66dp" />
+
+                    <CheckBox
+                        android:id="@+id/isAdmin"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+                        android:hint="Admin"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="66dp" />
+
+                    <CheckBox
+                        android:id="@+id/isPatient"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+                        android:hint="Patient"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.948"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="66dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/registerBtn"
-                android:layout_width="375dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
                 android:text="Create Account"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/goToLogin"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/isDentist" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="0.17" />
 
             <Button
                 android:id="@+id/goToLogin"
-                android:layout_width="375dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:text="Login"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:text="Back"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerBtn"
-                app:layout_constraintVertical_bias="0.048" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="0.946" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

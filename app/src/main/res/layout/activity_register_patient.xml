@@ -6,16 +6,14 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/loginCardView"
+        android:id="@+id/registerCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/dentist_background"
+            android:id="@+id/topBackground"
             tools:ignore="ContentDescription"
             android:layout_width="418dp"
             android:layout_height="740dp"
@@ -32,8 +30,8 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="175dp"
-                android:text="Welcome"
+                android:layout_marginTop="75dp"
+                android:text="Register"
                 android:textColor="#5917e1"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -68,14 +66,14 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/loginEmail"
-                        android:layout_width="0dp"
+                        android:id="@+id/patientregisterName"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:hint="Email address:"
-                        android:textColorHint="#5917e1"
-                        android:inputType="textEmailAddress"
-                        android:textColor="#5917e1" />
+                        android:hint="Full name:"
+                        android:inputType="textPersonName"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
 
 
                 </LinearLayout>
@@ -95,39 +93,70 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/loginPassword"
-                        android:layout_width="0dp"
+                        android:id="@+id/patientregisterEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Email address:"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:alpha="0.5"
+                    android:background="#585858" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/patientregisterPassword"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Password:"
-                        android:textColorHint="#5917e1"
                         android:inputType="textPassword"
-                        android:textColor="#5917e1" />
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
 
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:alpha="0.5"
+                    android:background="#585858" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/patientregisterPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="Phone number:"
+                        android:inputType="phone"
+                        android:textColor="#5917e1"
+                        android:textColorHint="#5917e1" />
                 </LinearLayout>
 
             </LinearLayout>
 
-
             <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/button_background"
-                android:gravity="center"
-                android:text="Login"
-                android:textColor="#ffffff"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.109" />
-
-            <Button
-                android:id="@+id/goToRegister"
+                android:id="@+id/patientregisterBtn"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/button_background"
@@ -140,8 +169,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-                app:layout_constraintVertical_bias="0.084" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="0.136" />
+
+            <Button
+                android:id="@+id/goToAdmin"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:text="Back"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="0.497" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
