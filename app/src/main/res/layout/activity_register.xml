@@ -13,10 +13,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/topBackground"
+            android:id="@+id/dentist_background"
             tools:ignore="ContentDescription"
-            android:layout_width="418dp"
-            android:layout_height="740dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,6 +26,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="400dp"
             android:layout_height="718dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Registration Form"
+                android:textColor="#5917e1"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <LinearLayout
@@ -39,7 +54,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/textView">
 
 
                 <LinearLayout
@@ -211,6 +226,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardFour"
                         android:layout_width="20dp"
@@ -270,16 +286,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:layout_editor_absoluteY="66dp" />
 
-                    <CheckBox
-                        android:id="@+id/isAdmin"
-                        android:layout_width="120dp"
-                        android:layout_height="48dp"
-                        android:hint="Admin"
-                        android:textColor="#5917e1"
-                        android:textColorHint="#5917e1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="66dp" />
+                    <include
+                        android:id="@+id/bell"
+                        layout = "@layout/bell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                     <CheckBox
                         android:id="@+id/isPatient"
@@ -304,7 +315,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/button_background"
                 android:gravity="center"
-                android:text="Create Account"
+                android:text="Submit Form"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -312,8 +323,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.17" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <Button
                 android:id="@+id/goToLogin"

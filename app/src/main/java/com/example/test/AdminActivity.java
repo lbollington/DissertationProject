@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -32,32 +33,32 @@ public class AdminActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference= firestore.collection("Users").document(userId);
+        DocumentReference documentReference= firestore.collection("approvedUsers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot != null){
-                    FullName.setText(documentSnapshot.getString("Full Name"));
-                    Email.setText(documentSnapshot.getString("User Email"));
+                    FullName.setText(documentSnapshot.getString("FullName"));
+                    Email.setText(documentSnapshot.getString("UserEmail"));
                 }
             }
         });
 
-        Button addPatient = findViewById(R.id.btnAddPatient);
+        ImageButton addPatient = findViewById(R.id.btnAddPatient);
         addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance();
-                startActivity(new Intent(getApplicationContext(), RegisterPatient.class));
+                startActivity(new Intent(getApplicationContext(), AccountNotifications.class));
             }
         });
 
-        Button schedule = findViewById(R.id.btnSchedule);
+        ImageButton schedule = findViewById(R.id.btnSchedule);
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance();
-                startActivity(new Intent(getApplicationContext(), AppSchedule.class));
+                startActivity(new Intent(getApplicationContext(), AppointmentNotifications.class));
             }
         });
 

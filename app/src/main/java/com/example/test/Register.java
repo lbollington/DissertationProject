@@ -6,11 +6,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +23,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,26 +32,30 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 
-public class Register extends AppCompatActivity
-{
+public class Register extends AppCompatActivity {
     EditText fullName, email, password, phone;
     Button registerBtn, goToLogin;
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    CheckBox isDentistBox, isPatientBox, isAdminBox;
+    CheckBox isDentistBox, isPatientBox;
+    TextView notificationNumber;
     String userID;
+    private final int maximum = 99;
+    private int notification_number_counter = 0;
     CardView cardOne, cardTwo, cardThree, cardFour;
-    private boolean isAtLeast8 = false, hasUpperCase = false, hasNumber = false, hasSymbol = false;
+    private boolean isAtLeast8 = false, hasUpperCase = false, hasNumber = false, hasSymbol = false, noEmptyFieldsExist =false, isSpace = false, validEmail = false, validPhoneNumber = false, validPassword = false, emptyNameCheck =false, emptyEmailCheck = false, emptyPasswordCheck =false, emptyPhoneNumberCheck =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_register);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+        NotificationCounter notificationCounter;
+        notificationCounter = new NotificationCounter(findViewById(R.id.bell));
 
         fullName = findViewById(R.id.registerName);
         email = findViewById(R.id.registerEmail);
@@ -61,7 +66,6 @@ public class Register extends AppCompatActivity
 
         isDentistBox = findViewById(R.id.isDentist);
         isPatientBox = findViewById(R.id.isPatient);
-        isAdminBox = findViewById(R.id.isAdmin);
 
         cardOne = findViewById(R.id.cardOne);
         cardTwo = findViewById(R.id.cardTwo);
@@ -75,7 +79,6 @@ public class Register extends AppCompatActivity
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     isDentistBox.setChecked(false);
-                    isAdminBox.setChecked(false);
                 }
             }
         });
@@ -85,69 +88,67 @@ public class Register extends AppCompatActivity
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.isChecked()) {
                     isPatientBox.setChecked(false);
-                    isAdminBox.setChecked(false);
                 }
             }
         });
-
-        isAdminBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    isPatientBox.setChecked(false);
-                    isDentistBox.setChecked(false);
-                }
-            }
-        });
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkField(fullName);
-                checkField(email);
-                checkField(password);
-                checkField(phone);
+                emptyNameCheck = checkField(fullName);
+                emptyEmailCheck = checkField(email);
+                emptyPasswordCheck = checkField(password);
+                emptyPhoneNumberCheck = checkField(phone);
 
-                if(!(isDentistBox.isChecked() || isPatientBox.isChecked() || isAdminBox.isChecked())){
+                if (emptyNameCheck && emptyEmailCheck && emptyPasswordCheck && emptyPhoneNumberCheck){
+                    noEmptyFieldsExist = true;
+                }else{
+                    noEmptyFieldsExist = false;
+                    Toast.makeText(Register.this, "Empty fields exist", Toast.LENGTH_SHORT).show();
+                }
+
+                if (!(isDentistBox.isChecked() || isPatientBox.isChecked())) {
                     Toast.makeText(Register.this, "Select an Account Type", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
-                if(valid){
+                if (validEmail && validPhoneNumber && validPassword && noEmptyFieldsExist) {
                     fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             userID = fAuth.getCurrentUser().getUid();
-                            Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
+                            notificationCounter.increaseNum();
                             DocumentReference df = fStore.collection("Users").document(userID);
                             Map<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("Full Name", fullName.getText().toString());
-                            userInfo.put("User Email", email.getText().toString());
-                            userInfo.put("Phone Number", phone.getText().toString());
                             //access level
                             if (isDentistBox.isChecked()) {
+                                userInfo.put("FullName", fullName.getText().toString());
+                                userInfo.put("UserEmail", email.getText().toString());
+                                userInfo.put("Password", password.getText().toString());
+                                userInfo.put("PhoneNumber", phone.getText().toString());
                                 userInfo.put("isDentist", "1");
-                                startActivity(new Intent(getApplicationContext(), DentistActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), Login.class));
                                 finish();
-                            }
-                            if (isAdminBox.isChecked()) {
-                                userInfo.put("isAdmin", "1");
-                                startActivity(new Intent(getApplicationContext(), AdminActivity.class));
-                                finish();
+                                df.set(userInfo);
                             }
                             if (isPatientBox.isChecked()) {
+                                userInfo.put("FullName", fullName.getText().toString());
+                                userInfo.put("UserEmail", email.getText().toString());
+                                userInfo.put("Password", password.getText().toString());
+                                userInfo.put("PhoneNumber", phone.getText().toString());
                                 userInfo.put("isPatient", "1");
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), Login.class));
                                 finish();
+                                df.set(userInfo);
                             }
-                            df.set(userInfo);
                             }
+
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Register.this, "Failed to Create Account", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Failed to submit registration form", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -155,97 +156,175 @@ public class Register extends AppCompatActivity
             }
         });
 
-
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
 
     }
 
-    public boolean checkField(EditText textField)
-    {
-        if(textField.getText().toString().isEmpty()){
+    public boolean checkField(EditText textField) {
+        if (textField.getText().toString().isEmpty()) {
             textField.setError("Error");
             valid = false;
-        }else{
+        } else {
             valid = true;
         }
         return valid;
     }
 
+    public void emailCheck() {
+        String Email = email.getText().toString();
+        String emailRegex = "[\\w-]{1,20}@\\w{2,20}\\.\\w{2,3}$";
+
+        //check for whitespace
+        for (char currentChar : Email.toCharArray()) {
+            isSpace = Character.isWhitespace(currentChar);
+        }
+        Pattern email_chars = Pattern.compile(emailRegex);
+        Matcher email_m = email_chars.matcher(Email);
+        if (email_m.matches() && !isSpace) {
+            validEmail = true;
+        } else {
+            validEmail = false;
+        }
+
+    }
+
     @SuppressLint("ResourceType")
-    public void passwordCheck () {
-        String name = fullName.getText().toString(), Email = email.getText().toString(), Password = password.getText().toString();
-        CharSequence cs = password.toString();
+    public void passwordCheck() {
+        String Password = password.getText().toString();
+        int PassLength = Password.length();
         //8 characters
-        if(password.length() >=8){
+        if (PassLength >= 8 && PassLength <= 15 && !isSpace) {
             isAtLeast8 = true;
             cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
-        }else{
+        } else {
             isAtLeast8 = false;
             cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
 
         }
+        //check for whitespace
+        for (char currentChar : Password.toCharArray()) {
+            isSpace = Character.isWhitespace(currentChar);
+        }
 
         //for uppercase
         Pattern upper = Pattern.compile("(.*[A-Z].*)");
-        Matcher upper_m = upper.matcher(cs);
-        if(upper_m.find()){
+        Matcher upper_m = upper.matcher(Password);
+        if (upper_m.matches()) {
             hasUpperCase = true;
             cardTwo.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
-        }else{
+        } else {
             hasUpperCase = false;
             cardTwo.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
         }
 
         //for number
         Pattern number = Pattern.compile("(.*[0-9].*)");
-        Matcher number_m = number.matcher(password.toString());
-        System.out.println(number_m);
-        if(number_m.find()){
-            hasNumber =true;
+        Matcher number_m = number.matcher(Password);
+        if (number_m.matches()) {
+            hasNumber = true;
             cardThree.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
-        }else{
+        } else {
             hasNumber = false;
             cardThree.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
         }
 
         //for symbol
 
-        Pattern symbol = Pattern.compile("^(?=.*[_.()]).*$");
-        Matcher symbol_m = symbol.matcher(cs);
-        if(symbol_m.find()){
-            hasSymbol=true;
+        Pattern symbol = Pattern.compile("[a-zA-Z0-9]*");
+        Matcher symbol_m = symbol.matcher(Password);
+        System.out.println(symbol_m);
+        if (!symbol_m.matches() && !isSpace) {
+            hasSymbol = true;
             cardFour.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
-        }else{
-            hasSymbol =false;
+        } else {
+            hasSymbol = false;
             cardFour.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
+        }
+
+        if(isAtLeast8 && hasUpperCase && hasNumber && hasSymbol && !isSpace){
+            validPassword = true;
+        }else{
+            validPassword = false;
         }
 
     }
 
-    private void inputChange(){
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void phoneNumberCheck() {
+        String PhoneNumber = phone.getText().toString();
+        int PhoneNumberLength = PhoneNumber.length();
 
-            }
+        for (char currentChar : PhoneNumber.toCharArray()) {
+            isSpace = Character.isWhitespace(currentChar);
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int count, int after) {
-                passwordCheck();
-            }
+        if (PhoneNumberLength == 11 && !isSpace) {
+            validPhoneNumber = true;
 
-            @Override
-            public void afterTextChanged(Editable s) {
+        } else {
+            validPhoneNumber = false;
 
-            }
-        });
+        }
     }
-}
+
+        private void inputChange () {
+            password.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int count, int after) {
+                    passwordCheck();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int count, int after) {
+                    emailCheck();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            phone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int count, int after) {
+                    phoneNumberCheck();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
+    }
+
 
 
 

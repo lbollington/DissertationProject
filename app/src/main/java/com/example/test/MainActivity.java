@@ -2,6 +2,7 @@ package com.example.test;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity{
     TextView FullName, Email;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
@@ -33,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference= firestore.collection("Users").document(userId);
+        DocumentReference documentReference= firestore.collection("approvedUsers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot != null) {
-                    FullName.setText(documentSnapshot.getString("Full Name"));
-                    Email.setText(documentSnapshot.getString("User Email"));
+                    FullName.setText(documentSnapshot.getString("FullName"));
+                    Email.setText(documentSnapshot.getString("UserEmail"));
                 }
             }
         });
@@ -54,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button viewApp = findViewById(R.id.btnViewApp);
+        viewApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance();
+                startActivity(new Intent(getApplicationContext(), AppCalendar.class));
+                finish();
+            }
+        });
+
         Button logout = findViewById(R.id.logoutPatientBtn);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,4 +76,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.test.Login;
+import com.example.test.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,13 +35,13 @@ public class DentistActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference= firestore.collection("Users").document(userId);
+        DocumentReference documentReference= firestore.collection("approvedUsers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot != null) {
-                    FullName.setText(documentSnapshot.getString("Full Name"));
-                    Email.setText(documentSnapshot.getString("User Email"));
+                    FullName.setText(documentSnapshot.getString("FullName"));
+                    Email.setText(documentSnapshot.getString("UserEmail"));
                 }
             }
         });

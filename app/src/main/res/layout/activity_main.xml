@@ -12,6 +12,7 @@
         tools:ignore="ContentDescription"
         android:layout_width="418dp"
         android:layout_height="740dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

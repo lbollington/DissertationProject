@@ -27,6 +27,9 @@
         <activity android:name=".AppSchedule"/>
         <activity android:name=".RegisterPatient"/>
         <activity android:name=".AppRequest"/>
+        <activity android:name=".AppCalendar"/>
+        <activity android:name=".AccountNotifications"/>
+        <activity android:name=".AppointmentNotifications"/>
     </application>
 
 </manifest>
