@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Register Users"
-                android:textColor="#5917e1"
+                android:text="Register User"
+                android:textColor="@color/blue"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,14 +67,14 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/patientregisterName"
+                        android:id="@+id/userregisterName"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Full name:"
                         android:inputType="textPersonName"
                         android:textColor="#5917e1"
-                        android:textColorHint="#5917e1" />
+                        android:textColorHint="@color/blue" />
 
 
                 </LinearLayout>
@@ -86,14 +86,14 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/patientregisterEmail"
+                        android:id="@+id/userregisterEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Email address:"
                         android:inputType="textEmailAddress"
                         android:textColor="#5917e1"
-                        android:textColorHint="#5917e1" />
+                        android:textColorHint="@color/blue" />
 
                 </LinearLayout>
 
@@ -104,22 +104,23 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/patientregisterPassword"
+                        android:id="@+id/userregisterPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Password:"
                         android:inputType="textPassword"
-                        android:textColor="#5917e1"
-                        android:textColorHint="#5917e1" />
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue" />
 
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Password should be"
-                    android:textColor="#5917e1" />
+                    android:textColor="@color/blue" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -129,7 +130,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card1PatientReg"
+                        android:id="@+id/card1UserReg"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         app:cardBackgroundColor="#dcdcdc"
@@ -150,7 +151,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
                         android:text="At least 8 characters"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue" />
 
                 </LinearLayout>
 
@@ -161,7 +162,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card2PatientReg"
+                        android:id="@+id/card2UserReg"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         app:cardBackgroundColor="#dcdcdc"
@@ -182,7 +183,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
                         android:text="Minimum one uppercase"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue" />
 
                 </LinearLayout>
 
@@ -193,7 +194,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card3PatientReg"
+                        android:id="@+id/card3UserReg"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         app:cardBackgroundColor="#dcdcdc"
@@ -208,7 +209,6 @@
                     </androidx.cardview.widget.CardView>
 
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -216,7 +216,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
                         android:text="Minimum one number"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue" />
 
                 </LinearLayout>
 
@@ -227,7 +227,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card4PatientReg"
+                        android:id="@+id/card4UserReg"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         app:cardBackgroundColor="#dcdcdc"
@@ -247,7 +247,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
                         android:text="Minimum one symbol"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue" />
 
                 </LinearLayout>
 
@@ -258,14 +258,14 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/patientregisterPhone"
+                        android:id="@+id/userregisterPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Phone number:"
                         android:inputType="phone"
-                        android:textColor="#5917e1"
-                        android:textColorHint="#5917e1" />
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -279,8 +279,8 @@
                         android:layout_width="120dp"
                         android:layout_height="48dp"
                         android:hint="Dentist"
-                        android:textColor="#5917e1"
-                        android:textColorHint="#5917e1"
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.052"
                         app:layout_constraintStart_toStartOf="parent"
@@ -291,8 +291,8 @@
                         android:layout_width="120dp"
                         android:layout_height="48dp"
                         android:hint="Patient"
-                        android:textColor="#5917e1"
-                        android:textColorHint="#5917e1"
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.948"
                         app:layout_constraintStart_toStartOf="parent"
@@ -303,7 +303,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/patientregisterBtn"
+                android:id="@+id/userregisterBtn"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/button_background"

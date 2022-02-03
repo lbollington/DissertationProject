@@ -23,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text= "Request Appointment"
-        android:textColor="#5917e1"
+        android:text="Request Appointment"
+        android:textColor="@color/blue"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +58,26 @@
                 android:layout_weight="1"
                 android:hint="Patient Name"
                 android:inputType="text"
-                android:textColor="#5917e1"
-                android:textColorHint="#5917e1" />
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etpatientEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Patient Email"
+                android:inputType="text"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
 
         </LinearLayout>
 
@@ -76,8 +94,8 @@
                 android:layout_weight="1"
                 android:hint="Reason"
                 android:inputType="text"
-                android:textColor="#5917e1"
-                android:textColorHint="#5917e1" />
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
 
 
         </LinearLayout>
@@ -95,8 +113,8 @@
                 android:layout_weight="1"
                 android:hint="Location"
                 android:inputType="text"
-                android:textColor="#5917e1"
-                android:textColorHint="#5917e1" />
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
 
         </LinearLayout>
 
@@ -113,8 +131,8 @@
                 android:layout_weight="1"
                 android:hint="Description"
                 android:inputType="text"
-                android:textColor="#5917e1"
-                android:textColorHint="#5917e1" />
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
 
         </LinearLayout>
 

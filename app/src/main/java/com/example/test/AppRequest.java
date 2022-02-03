@@ -11,13 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AppRequest extends AppCompatActivity {
-    EditText requestReason, requestLocation, requestDescription, patientName;
+    EditText requestReason, requestLocation, requestDescription, patientName, patientEmail;
     Button submit;
 
     FirebaseAuth fAuth;
@@ -34,10 +38,13 @@ public class AppRequest extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         patientName = findViewById(R.id.etpatientName);
+        patientEmail = findViewById(R.id.etpatientEmail);
         requestReason = findViewById(R.id.etTitle);
         requestLocation= findViewById(R.id.etLocation);
         requestDescription = findViewById(R.id.etDescription);
         submit = findViewById(R.id.btnSubmit);
+
+        DocumentReference appointmentRequestsRef = fStore.collection("appointmentRequestsNumber").document("WZMyCwUdyT6TXLvcU28Q");
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +57,12 @@ public class AppRequest extends AppCompatActivity {
                 if(valid) {
                     userID = fAuth.getCurrentUser().getUid();
                     Toast.makeText(AppRequest.this, "Request submitted", Toast.LENGTH_SHORT).show();
-                    DocumentReference df = fStore.collection("Appointment_Requests").document(userID);
+                    DocumentReference df = fStore.collection("appointmentRequests").document(userID);
+                    appointmentRequestsRef.update("NumOfAppRequests", FieldValue.increment(1));
                     Map<String, Object> Requests = new HashMap<>();
-                    Requests.put("Patient Name", patientName.getText().toString());
-                    Requests.put("Reason", requestReason.getText().toString());
+                    Requests.put("PatientName", patientName.getText().toString());
+                    Requests.put("PatientEmail", patientEmail.getText().toString());
+                    Requests.put("AppointmentType", requestReason.getText().toString());
                     Requests.put("Location", requestLocation.getText().toString());
                     Requests.put("Description", requestDescription.getText().toString());
                     df.set(Requests);
@@ -89,5 +98,6 @@ public class AppRequest extends AppCompatActivity {
         }
         return valid;
     }
+
 }
 

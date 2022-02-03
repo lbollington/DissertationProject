@@ -46,6 +46,15 @@ public class DentistActivity extends AppCompatActivity {
             }
         });
 
+        Button upload = findViewById(R.id.btnUploadPatientInfo);
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), DentistUpload.class));
+                finish();
+            }
+        });
+
     Button logout = findViewById(R.id.logoutDentistBtn);
         logout.setOnClickListener(new View.OnClickListener() {
         @Override

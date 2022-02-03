@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class Login extends AppCompatActivity {
         goToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Register.class));
+                startActivity(new Intent(getApplicationContext(), DataProtectionForm.class));
             }
         });
     }
@@ -78,19 +79,20 @@ public class Login extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
                 //user access level
-                if (documentSnapshot.getString("isDentist") != null) {
+                if (documentSnapshot.getString("UserType").equals("Dentist")) {
                     startActivity(new Intent(getApplicationContext(), DentistActivity.class));
                     finish();
                 }
-                if (documentSnapshot.getString("isPatient") != null) {
+
+                else if (documentSnapshot.getString("UserType").equals("Patient")) {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 }
-                if (documentSnapshot.getString("isAdmin") != null) {
+                else if (documentSnapshot.getString("UserType").equals("Admin")) {
                     startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                     finish();
+                    }
                 }
-            }
         });
     }
 
@@ -105,36 +107,7 @@ public class Login extends AppCompatActivity {
         return valid;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            DocumentReference df = FirebaseFirestore.getInstance().collection("approvedUsers").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if(documentSnapshot.getString("isDentist") != null){
-                        startActivity(new Intent(getApplicationContext(), DentistActivity.class));
-                        finish();
-                    }
-                    if(documentSnapshot.getString("isPatient") != null){
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
-                    if(documentSnapshot.getString("isAdmin") != null){
-                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
-                        finish();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(getApplicationContext(), Login.class));
-                }
-            });
-        }
+
     }
-}
 
 

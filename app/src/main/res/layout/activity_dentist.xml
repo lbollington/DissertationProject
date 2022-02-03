@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="#5917e1"
+        android:textColor="@color/blue"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/profilePicture"
@@ -45,7 +45,7 @@
         android:id="@+id/emailDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#5917e1"
+        android:textColor="@color/blue"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/nameDisplay"
         app:layout_constraintStart_toStartOf="@+id/nameDisplay"
@@ -92,7 +92,7 @@
                     android:layout_margin="10dp"
                     android:text="Dentist"
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/blue"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -117,9 +117,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Notifications"
+                    android:text="Change profile"
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/blue"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -146,7 +146,7 @@
                     android:layout_margin="10dp"
                     android:text="Settings"
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/blue"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="View patient appointments"
-                android:textColor="#5917e1"
+                android:textColor="@color/blue"
                 android:textSize="18sp" />
 
             <Button
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Upload patient's info"
-                android:textColor="#5917e1"
+                android:textColor="@color/blue"
                 android:textSize="18sp" />
 
             <Button

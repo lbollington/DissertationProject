@@ -19,11 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -39,10 +43,8 @@ public class Register extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     CheckBox isDentistBox, isPatientBox;
-    TextView notificationNumber;
-    String userID;
-    private final int maximum = 99;
-    private int notification_number_counter = 0;
+    String userIDField;
+
     CardView cardOne, cardTwo, cardThree, cardFour;
     private boolean isAtLeast8 = false, hasUpperCase = false, hasNumber = false, hasSymbol = false, noEmptyFieldsExist =false, isSpace = false, validEmail = false, validPhoneNumber = false, validPassword = false, emptyNameCheck =false, emptyEmailCheck = false, emptyPasswordCheck =false, emptyPhoneNumberCheck =false;
 
@@ -54,15 +56,13 @@ public class Register extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        NotificationCounter notificationCounter;
-        notificationCounter = new NotificationCounter(findViewById(R.id.bell));
-
         fullName = findViewById(R.id.registerName);
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
         registerBtn = findViewById(R.id.registerBtn);
         goToLogin = findViewById(R.id.goToLogin);
+
 
         isDentistBox = findViewById(R.id.isDentist);
         isPatientBox = findViewById(R.id.isPatient);
@@ -92,6 +92,8 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        DocumentReference accountRequestsRef = fStore.collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,44 +114,45 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
-
                 if (validEmail && validPhoneNumber && validPassword && noEmptyFieldsExist) {
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onSuccess(AuthResult authResult) {
-                            userID = fAuth.getCurrentUser().getUid();
-                            Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
-                            notificationCounter.increaseNum();
-                            DocumentReference df = fStore.collection("Users").document(userID);
-                            Map<String, Object> userInfo = new HashMap<>();
-                            //access level
-                            if (isDentistBox.isChecked()) {
-                                userInfo.put("FullName", fullName.getText().toString());
-                                userInfo.put("UserEmail", email.getText().toString());
-                                userInfo.put("Password", password.getText().toString());
-                                userInfo.put("PhoneNumber", phone.getText().toString());
-                                userInfo.put("isDentist", "1");
-                                //startActivity(new Intent(getApplicationContext(), Login.class));
-                                finish();
-                                df.set(userInfo);
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                userIDField = fAuth.getCurrentUser().getUid();
+                                Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
+                                DocumentReference df = fStore.collection("Users").document(userIDField);
+                                accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(1));
+                                Map<String, Object> userInfo = new HashMap<>();
+                                //access level
+                                if (isDentistBox.isChecked()) {
+                                    userInfo.put("FullName", fullName.getText().toString());
+                                    userInfo.put("UserEmail", email.getText().toString());
+                                    userInfo.put("Password", password.getText().toString());
+                                    userInfo.put("PhoneNumber", phone.getText().toString());
+                                    userInfo.put("UserType", "Dentist");
+                                    //userInfo.put( "Consent", true);
+                                    finish();
+                                    df.set(userInfo);
+                                }
+                                if (isPatientBox.isChecked()) {
+                                    userInfo.put("FullName", fullName.getText().toString());
+                                    userInfo.put("UserEmail", email.getText().toString());
+                                    userInfo.put("Password", password.getText().toString());
+                                    userInfo.put("PhoneNumber", phone.getText().toString());
+                                    userInfo.put("UserType", "Patient");
+                                    //userInfo.put( "Consent", true);
+                                    finish();
+                                    df.set(userInfo);
+                                }
                             }
-                            if (isPatientBox.isChecked()) {
-                                userInfo.put("FullName", fullName.getText().toString());
-                                userInfo.put("UserEmail", email.getText().toString());
-                                userInfo.put("Password", password.getText().toString());
-                                userInfo.put("PhoneNumber", phone.getText().toString());
-                                userInfo.put("isPatient", "1");
-                                //startActivity(new Intent(getApplicationContext(), Login.class));
-                                finish();
-                                df.set(userInfo);
-                            }
-                            }
+                            else{
+                                Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                //FirebaseAuth.getInstance().getCurrentUser().delete();
 
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Register.this, "Failed to submit registration form", Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                     });
                 }
 

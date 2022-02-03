@@ -29,38 +29,38 @@
             android:layout_width="400dp"
             android:layout_height="718dp">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="175dp"
-                android:text="Welcome"
-                android:textColor="#5917e1"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/logoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="125dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/white_background"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="157dp"
+                        android:layout_gravity="center_horizontal"
+                        app:srcCompat="@drawable/identify" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,9 +74,9 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Email address:"
-                        android:textColorHint="#5917e1"
                         android:inputType="textEmailAddress"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,9 +91,9 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:hint="Password:"
-                        android:textColorHint="#5917e1"
                         android:inputType="textPassword"
-                        android:textColor="#5917e1" />
+                        android:textColor="@color/blue"
+                        android:textColorHint="@color/blue" />
 
                 </LinearLayout>
 
@@ -104,6 +104,7 @@
                 android:id="@+id/loginBtn"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/button_background"
                 android:gravity="center"
                 android:text="Login"
@@ -114,13 +115,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/logoContainer"
                 app:layout_constraintVertical_bias="0.109" />
 
             <Button
                 android:id="@+id/goToRegister"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/button_background"
                 android:gravity="center"
                 android:text="Create Account"
