@@ -2,7 +2,6 @@ package com.example.test;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         FullName = findViewById(R.id.nameDisplay);
         Email = findViewById(R.id.emailDisplay);
         profileImageView = findViewById(R.id.profilePicture);
+        storageReference = FirebaseStorage.getInstance().getReference().child("Profile Pic");
 
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         userId = mAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
-        storageReference = FirebaseStorage.getInstance().getReference();
 
         DocumentReference documentReference = firestore.collection("approvedUsers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {

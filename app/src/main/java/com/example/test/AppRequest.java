@@ -3,8 +3,10 @@ package com.example.test;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,7 @@ public class AppRequest extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     boolean valid = true;
+    Spinner mySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -44,7 +47,14 @@ public class AppRequest extends AppCompatActivity {
         requestDescription = findViewById(R.id.etDescription);
         submit = findViewById(R.id.btnSubmit);
 
+        mySpinner = findViewById(R.id.dentistSpinner);
+
         DocumentReference appointmentRequestsRef = fStore.collection("appointmentRequestsNumber").document("WZMyCwUdyT6TXLvcU28Q");
+
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AppRequest.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

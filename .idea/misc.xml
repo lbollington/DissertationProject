@@ -38,6 +38,7 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test/app/src/main/res/mipmap-anydpi-v26/top_background.png.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/drawable/button_background.xml" value="0.199609375" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/drawable/rounded.xml" value="0.199609375" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/activity_admin.xml" value="0.1875" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/activity_data_protection_form.xml" value="0.18757327080890973" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/activity_dentist.xml" value="0.1875" />
@@ -58,6 +59,7 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/bell_acc.xml" value="0.1875" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/bell_app.xml" value="0.1875" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/calendar_cell.xml" value="0.1875" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/test_newest/test/app/src/main/res/layout/update_popup.xml" value="0.1875" />
       </map>
     </option>
   </component>

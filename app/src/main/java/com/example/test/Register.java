@@ -121,7 +121,7 @@ public class Register extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 userIDField = fAuth.getCurrentUser().getUid();
                                 Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
-                                DocumentReference df = fStore.collection("Users").document(userIDField);
+                                DocumentReference df = fStore.collection("Users").document(email.getText().toString());
                                 accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(1));
                                 Map<String, Object> userInfo = new HashMap<>();
                                 //access level
@@ -148,8 +148,7 @@ public class Register extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                //FirebaseAuth.getInstance().getCurrentUser().delete();
-
+                                //ensure that user is deleted from authentication tab - details will not be stored
                             }
                         }
 
