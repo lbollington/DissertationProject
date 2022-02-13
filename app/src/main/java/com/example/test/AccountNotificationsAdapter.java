@@ -15,9 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -88,7 +92,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(holder.fullName.getContext());
                         builder.setTitle("Are you sure?");
-                        builder.setMessage("Deleted data can't be undone.");
+                        builder.setMessage("Deleted accounts can't be recovered.");
 
                         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
@@ -119,21 +123,29 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                         DocumentReference dfDelete = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());
                         DocumentReference accountRequestsRef = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
 
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("FullName", name.getText().toString());
-                        map.put("UserEmail", email.getText().toString());
-                        map.put("Password", password.getText().toString());
-                        map.put("PhoneNumber", phone.getText().toString());
-                        map.put("UserType", userType.getText().toString());
-                        dfApprove.set(map);
-                        //add user email and password to authentication tab so they can login
-                        dfDelete.delete();
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("FullName", name.getText().toString());
+                                    map.put("UserEmail", email.getText().toString());
+                                    map.put("Password", password.getText().toString());
+                                    map.put("PhoneNumber", phone.getText().toString());
+                                    map.put("UserType", userType.getText().toString());
+                                    dfApprove.set(map);
+                                    ////push userID ?
+                                    dfDelete.delete();
 
-                        accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1));
+                                    accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1));
 
 
-                        Toast.makeText(holder.fullName.getContext(), "Account Approved", Toast.LENGTH_SHORT).show();
-                        dialogPlus.dismiss();
+                                    Toast.makeText(holder.fullName.getContext(), "Account Approved", Toast.LENGTH_SHORT).show();
+                                    dialogPlus.dismiss();
+                                }
+                            }
+                        });
+
                     }
                 });
             }

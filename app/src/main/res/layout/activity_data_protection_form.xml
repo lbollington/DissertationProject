@@ -31,7 +31,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:text="Data Protection Form"
                 android:textColor="@color/blue"
                 android:textSize="30sp"

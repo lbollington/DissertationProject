@@ -50,6 +50,8 @@
         <activity android:name=".AccountNotifications" />
         <activity android:name=".AppointmentNotifications" />
         <activity android:name=".DentistUpload" />
+        <activity android:name=".PasswordReset"/>
+        <activity android:name=".PasswordRequestNotifications"/>
     </application>
 
 </manifest>

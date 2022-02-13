@@ -121,6 +121,7 @@ public class Register extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 userIDField = fAuth.getCurrentUser().getUid();
                                 Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
+
                                 DocumentReference df = fStore.collection("Users").document(email.getText().toString());
                                 accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(1));
                                 Map<String, Object> userInfo = new HashMap<>();
@@ -132,7 +133,9 @@ public class Register extends AppCompatActivity {
                                     userInfo.put("PhoneNumber", phone.getText().toString());
                                     userInfo.put("UserType", "Dentist");
                                     //userInfo.put( "Consent", true);
+                                    //push userID ?
                                     finish();
+                                    startActivity(new Intent(Register.this, Login.class));
                                     df.set(userInfo);
                                 }
                                 if (isPatientBox.isChecked()) {
@@ -143,6 +146,7 @@ public class Register extends AppCompatActivity {
                                     userInfo.put("UserType", "Patient");
                                     //userInfo.put( "Consent", true);
                                     finish();
+                                    startActivity(new Intent(Register.this, Login.class));
                                     df.set(userInfo);
                                 }
                             }

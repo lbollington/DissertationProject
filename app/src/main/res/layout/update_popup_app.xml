@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Update Account Details"
+        android:text="Update Appointment Details"
         android:background="@color/blue"
         android:textSize="25dp"
         android:gravity="center"
@@ -21,16 +21,16 @@
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="Full Name" />
-    
+        android:text="Patient Name" />
+
     <EditText
+        android:id="@+id/txtPatientName"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/rounded"
-        android:gravity="center"
-        android:id="@+id/txtFullName"/>
+        android:gravity="center" />
 
     <TextView
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/rounded"
         android:gravity="center"
-        android:id="@+id/txtEmailAddress"/>
+        android:id="@+id/txtPatientEmailAddress"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="Password" />
+        android:text="Appointment Type" />
 
     <EditText
         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/rounded"
         android:gravity="center"
-        android:id="@+id/txtPassword"/>
+        android:id="@+id/txtAppType"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="Phone Number" />
+        android:text="Location" />
 
     <EditText
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/rounded"
         android:gravity="center"
-        android:id="@+id/txtPhoneNumber"/>
+        android:id="@+id/txtLocation"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="User Type" />
+        android:text="Dentist" />
 
     <EditText
         android:layout_width="match_parent"
@@ -102,7 +102,25 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/rounded"
         android:gravity="center"
-        android:id="@+id/txtUserType"/>
+        android:id="@+id/txtAppDentist"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Appointment Time" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/rounded"
+        android:gravity="center"
+        android:id="@+id/txtAppointmentTime"/>
 
     <Button
         android:layout_width="match_parent"
@@ -114,8 +132,8 @@
         android:textColor="@color/white"
         android:textSize="21dp"
         android:gravity="center"
-        android:text="Approve Account"
-        android:id="@+id/btnUpdate"/>
+        android:text="Approve Appointment"
+        android:id="@+id/btnAppUpdate"/>
 
 
 

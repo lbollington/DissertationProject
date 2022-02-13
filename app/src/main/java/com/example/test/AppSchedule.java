@@ -43,7 +43,7 @@ public class AppSchedule extends AppCompatActivity {
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!reason.getText().toString().isEmpty() && !location.getText().toString().isEmpty() && !description.getText().toString().isEmpty()){
+                if (!reason.getText().toString().isEmpty() && !location.getText().toString().isEmpty() && !description.getText().toString().isEmpty()) {
 
                     Intent intent = new Intent(Intent.ACTION_INSERT);
                     intent.setData(CalendarContract.Events.CONTENT_URI);
@@ -52,19 +52,17 @@ public class AppSchedule extends AppCompatActivity {
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
                     intent.putExtra(CalendarContract.Events.ALL_DAY, true);
                     intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com");
-                    
+
                     FirebaseAuth.getInstance();
                     startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                     finish();
 
-                    if(intent.resolveActivity(getPackageManager()) != null){
+                    if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(AppSchedule.this, "There is no app that can support this action", Toast.LENGTH_SHORT).show();
                     }
 
-                }else{
-                    Toast.makeText(AppSchedule.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });

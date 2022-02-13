@@ -239,13 +239,28 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/viewTBD"
+                android:id="@+id/passwordResetDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=""
-                android:textColor="#5917e1"
+                android:text="Password requests"
+                android:textColor="@color/blue"
                 android:textSize="18sp" />
+
+
+            <Button
+                android:id="@+id/btnPassReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue"
+                android:text="View"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <include
+                layout="@layout/bell_pass"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
 
         </LinearLayout>
 

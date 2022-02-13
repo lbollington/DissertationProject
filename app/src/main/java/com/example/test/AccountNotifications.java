@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +42,7 @@ public class AccountNotifications extends AppCompatActivity {
     FirebaseFirestore firestore;
     String userId;
 
+    SwipeRefreshLayout refreshLayout;
     RecyclerView recyclerView;
     FirebaseFirestore db;
     AccountNotificationsAdapter myAdapter;
@@ -60,6 +62,15 @@ public class AccountNotifications extends AppCompatActivity {
         recyclerView = findViewById(R.id.userList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<UsersData>();

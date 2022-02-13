@@ -1,6 +1,7 @@
 package com.example.test;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -72,6 +73,7 @@ public class DentistUpload extends AppCompatActivity {
                     if (task.isSuccessful()){
                         dialog.dismiss();
                         Toast.makeText(DentistUpload.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DentistUpload.this, DentistActivity.class));
                     }else{
                         dialog.dismiss();
                         Toast.makeText(DentistUpload.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

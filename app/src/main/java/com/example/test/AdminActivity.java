@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class AdminActivity extends AppCompatActivity {
-    TextView FullName, Email, notificationAppNum, notificationAccNum;
+    TextView FullName, Email, notificationAppNum, notificationAccNum, notificationPassNum;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     String userId;
@@ -42,6 +42,7 @@ public class AdminActivity extends AppCompatActivity {
         userId = firebaseAuth.getCurrentUser().getUid();
         notificationAppNum = findViewById(R.id.notificationAppNumber);
         notificationAccNum = findViewById(R.id.notificationAccNumber);
+        notificationPassNum = findViewById(R.id.notificationPassNumber);
 
         DocumentReference accRequests = firestore.collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
         accRequests.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -63,6 +64,16 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+        DocumentReference passRequests = firestore.collection("passwordResetRequestsNumber").document("qhm5HzQYgG897w9EVuqZ");
+        passRequests.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot != null){
+                    notificationPassNum.setText(documentSnapshot.getLong("NumOfPassRequests").toString());
+                }
+            }
+        });
+
         DocumentReference documentReference= firestore.collection("approvedUsers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -79,7 +90,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance();
-                startActivity(new Intent(getApplicationContext(), AccountNotifications.class));
+                startActivity(new Intent(AdminActivity.this, AccountNotifications.class));
             }
         });
 
@@ -88,7 +99,17 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance();
-                startActivity(new Intent(getApplicationContext(), AppointmentNotifications.class));
+                startActivity(new Intent(AdminActivity.this, AppointmentNotifications.class));
+            }
+        });
+
+        Button passwordRequests = findViewById(R.id.btnPassReset);
+        passwordRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance();
+                startActivity(new Intent(AdminActivity.this, PasswordRequestNotifications.class));
+
             }
         });
 

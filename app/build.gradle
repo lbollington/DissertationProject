@@ -53,3 +53,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.android.support:design:31.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

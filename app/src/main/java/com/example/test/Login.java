@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,17 +16,25 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
-    EditText email, password;
+    private EditText emailAddr;
+    EditText password, email;
+    TextView goToPasswordReset;
     Button loginBtn, goToRegister;
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +43,13 @@ public class Login extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
-        email = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
+        email = findViewById(R.id.loginEmail);
         loginBtn = findViewById(R.id.loginBtn);
         goToRegister = findViewById(R.id.goToRegister);
+        goToPasswordReset = findViewById(R.id.tvForgotPass);
+
+        database = FirebaseDatabase.getInstance();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +62,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
-                            checkUserLevel(authResult.getUser().getUid());
+                            checkUserLevel();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -63,16 +74,47 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        goToPasswordReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, PasswordReset.class));
+            }
+        });
+
         goToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), DataProtectionForm.class));
+                startActivity(new Intent(Login.this, DataProtectionForm.class));
             }
         });
     }
 
-    private void checkUserLevel(String uid) {
-        DocumentReference df = fStore.collection("approvedUsers").document(uid);
+    private void checkUserLevel() {
+        DatabaseReference myRef = database.getReference("ApprovedUsers");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue().toString().equals("Dentist")){
+                    startActivity(new Intent(Login.this, DentistActivity.class));
+                    finish();
+                }
+                else if(snapshot.getValue().toString().equals("Patient")){
+                    startActivity(new Intent(Login.this, MainActivity.class));
+                    finish();
+                }
+                else if(snapshot.getValue().toString().equals("Admin")){
+                    startActivity(new Intent(Login.this, AdminActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DocumentReference df = fStore.collection("approvedUsers").document(email.getText().toString());
         //extract data
         df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
