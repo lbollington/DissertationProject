@@ -1,54 +1,33 @@
 package com.example.test;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.test.Login;
-import com.example.test.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class DentistActivity extends AppCompatActivity {
-    TextView FullName, Email;
     FirebaseAuth firebaseAuth;
-    FirebaseFirestore firestore;
+    FirebaseFirestore firestore;        //variables
     String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dentist);
-        FullName = findViewById(R.id.nameDisplay);
-        Email = findViewById(R.id.emailDisplay);
+        setContentView(R.layout.activity_dentist); //onCreate method to set content view
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        firestore = FirebaseFirestore.getInstance();        //initialise variables
         userId = firebaseAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference= firestore.collection("approvedUsers").document(userId);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if(documentSnapshot != null) {
-                    FullName.setText(documentSnapshot.getString("FullName"));
-                    Email.setText(documentSnapshot.getString("UserEmail"));
-                }
-            }
-        });
 
         Button upload = findViewById(R.id.btnUploadPatientInfo);
         upload.setOnClickListener(new View.OnClickListener() {
-            @Override
+            @Override                                                   //button for upload
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), DentistUpload.class));
                 finish();
@@ -58,7 +37,7 @@ public class DentistActivity extends AppCompatActivity {
     Button logout = findViewById(R.id.logoutDentistBtn);
         logout.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) {                            //button to logout
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();

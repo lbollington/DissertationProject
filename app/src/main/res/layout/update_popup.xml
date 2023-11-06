@@ -115,7 +115,7 @@
         android:textSize="21dp"
         android:gravity="center"
         android:text="Approve Account"
-        android:id="@+id/btnUpdate"/>
+        android:id="@+id/btnAccUpdate"/>
 
 
 

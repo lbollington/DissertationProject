@@ -16,6 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -110,17 +114,26 @@ public class PasswordRequestNotificationsAdapter extends RecyclerView.Adapter<Pa
                         DocumentReference dfPassDelete = FirebaseFirestore.getInstance().collection("passwordResetRequests").document(userEmail.getText().toString());
                         DocumentReference passRequestsRef = FirebaseFirestore.getInstance().collection("passwordResetRequestsNumber").document("qhm5HzQYgG897w9EVuqZ");
 
-                        //redefine fAuth login credentials to use new password
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("Password", passRequest.getText().toString());
-                        dfPassApprove.update(map);
-                        ////push userID ?
-                        dfPassDelete.delete();
+                        //delete fAuth record
+                        /*
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(userEmail.getText().toString(), passRequest.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {*/
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("Password", passRequest.getText().toString());
+                                    dfPassApprove.update(map);
+                                    ////push userID ?
+                                    dfPassDelete.delete();
 
-                        passRequestsRef.update("NumOfPassRequests", FieldValue.increment(-1));
+                                    passRequestsRef.update("NumOfPassRequests", FieldValue.increment(-1));
 
-                        Toast.makeText(holder.ResetName.getContext(), "Password Approved", Toast.LENGTH_SHORT).show();
-                        dialogPlus.dismiss();
+                                    Toast.makeText(holder.ResetName.getContext(), "Password Approved", Toast.LENGTH_SHORT).show();
+                                    dialogPlus.dismiss();
+                             //   }
+                            }
+                        });
+
 
                     }
 
@@ -128,9 +141,9 @@ public class PasswordRequestNotificationsAdapter extends RecyclerView.Adapter<Pa
 
             }
 
-        });
+       // });
 
-    }
+   // }
 
     @Override
     public int getItemCount() {

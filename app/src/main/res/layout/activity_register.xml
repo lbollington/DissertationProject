@@ -92,7 +92,7 @@
                         android:layout_weight="1"
                         android:hint="Email address:"
                         android:inputType="textEmailAddress"
-                        android:textColor="#5917e1"
+                        android:textColor="@color/blue"
                         android:textColorHint="@color/blue" />
 
                 </LinearLayout>

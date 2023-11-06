@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class AppSchedule extends AppCompatActivity {
     EditText reason, location, description, patientname, patientemail;
     Button addEvent;
-
     FirebaseFirestore fStore;
 
     @Override
@@ -54,7 +53,7 @@ public class AppSchedule extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com");
 
                     FirebaseAuth.getInstance();
-                    startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                    startActivity(new Intent(AppSchedule.this, AdminActivity.class));
                     finish();
 
                     if (intent.resolveActivity(getPackageManager()) != null) {
@@ -72,7 +71,7 @@ public class AppSchedule extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance();
-                startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                startActivity(new Intent(AppSchedule.this, AdminActivity.class));
                 finish();
             }
         });

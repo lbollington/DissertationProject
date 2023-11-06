@@ -22,7 +22,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="275dp"
         android:text="Upload Patient info"
         android:textColor="@color/blue"
         android:textSize="30sp"
@@ -33,18 +34,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
         android:id="@+id/uploadImageBtn"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/button_background"
         android:text="Upload image"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/dentist_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,38 +54,163 @@
         android:id="@+id/logoContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="24dp"
-        android:layout_marginTop="35dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/white_background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/uploadImageBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView">
+        app:layout_constraintTop_toBottomOf="@id/detailsContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="80dp"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
-            android:text="Choose a document to upload"
-            android:textStyle="bold"
-            android:textColor="@color/blue"
             android:gravity="center"
-            android:layout_marginBottom="25dp"/>
+            android:text="Choose a document to upload"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/white_background"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/logoContainer"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etDentistEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Dentist email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etAppTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Reason for appointment"
+                android:inputType="text"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etPatientEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Patient email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etDay"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Day"
+                android:gravity="center"
+                android:inputType="text"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:text="/"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/etMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Month"
+                android:gravity="center"
+                android:inputType="text"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:text="/"
+                android:textColor="@color/blue"/>
+
+            <EditText
+                android:id="@+id/etYear"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Year"
+                android:inputType="text"
+                android:gravity="center"
+                android:textColor="@color/blue"
+                android:textColorHint="@color/blue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

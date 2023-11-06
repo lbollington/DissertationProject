@@ -6,57 +6,49 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 
 public class AppointmentNotifications extends AppCompatActivity {
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firestore;
-    String userId;
 
+    Button docBack;
     RecyclerView recyclerViewApp;
-    FirebaseFirestore db;
+    FirebaseFirestore db;                               //set variables
     AppointmentNotificationsAdapter myAppAdapter;
     ArrayList<AppUsersData> userAppList;
     ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {        //onCreate method to set content view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify_app);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(false);                    //process dialog
         progressDialog.setMessage("Fetching Data...");
         progressDialog.show();
 
-        recyclerViewApp = findViewById(R.id.userListAppointments);
+        docBack = findViewById(R.id.docBackApp);
+
+        recyclerViewApp = findViewById(R.id.userListAppointments);          //initialise items
         recyclerViewApp.setHasFixedSize(true);
         recyclerViewApp.setLayoutManager(new LinearLayoutManager(this));
 
@@ -65,16 +57,25 @@ public class AppointmentNotifications extends AppCompatActivity {
 
         myAppAdapter = new AppointmentNotificationsAdapter(AppointmentNotifications.this, userAppList);
 
-        recyclerViewApp.setAdapter(myAppAdapter);
+        recyclerViewApp.setAdapter(myAppAdapter);           //initialise adapter
 
         AppEventChangeListener();
+
+        docBack.setOnClickListener(new View.OnClickListener() {
+            @Override                                                           //on-click listener to go back to admin dashboard
+            public void onClick(View v) {
+                FirebaseAuth.getInstance();
+                startActivity(new Intent(recyclerViewApp.getContext(), AdminActivity.class));
+                finish();
+            }
+        });
 
 
     }
 
     private void AppEventChangeListener() {
-        db.collection("appointmentRequests").orderBy("PatientName", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("appointmentRequests").orderBy("PatientEmail", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {                                                       //checks for documents changes and will display appointment requests
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -94,7 +95,7 @@ public class AppointmentNotifications extends AppCompatActivity {
                             }
 
                             myAppAdapter.notifyDataSetChanged();
-                            if(progressDialog.isShowing())
+                            if(progressDialog.isShowing())                  //process dialog
                                 progressDialog.dismiss();
 
                         }

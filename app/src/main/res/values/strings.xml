@@ -3,7 +3,7 @@
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
     <string name="data_protection_policy">By approving our Data Protection form you consent to us processing your personal data for the purpose of account management. You are aware and informed that you may withdraw your consent at any time by contacting our Admin by email at lbollington@gmail.com. By clicking below to consent, you acknowledge that the information and data you provide to us will be processed in accordance with our Data Protection Policy and Terms and Conditions.</string>
-    <string name="consent_dp">By approving our Data Protection form you consent to us processing your personal data for the purpose of account management. \n \n You are aware and informed that you may withdraw your consent at any time by contacting our Admin by email at lbollington@gmail.com. \n \nBy clicking below to consent, you acknowledge that the information and data you provide to us will be processed in accordance with our Data Protection Policy and T+Cs.</string>
+    <string name="consent_dp">By approving our Data Protection form you consent to us processing your personal data for the purpose of account management. \n \n You are aware and informed that you may withdraw your consent at any time by contacting our Admin by email at lukebollington10@gmail.com. \n \nBy clicking below to consent, you acknowledge that the information and data you provide to us will be processed in accordance with our Data Protection Policy and T+Cs.</string>
     <string-array name="names">
         <item>Bob</item>
         <item>Jerry</item>

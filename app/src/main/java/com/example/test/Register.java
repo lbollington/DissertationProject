@@ -6,26 +6,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,7 +33,7 @@ public class Register extends AppCompatActivity {
     Button registerBtn, goToLogin;
     boolean valid = true;
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
+    FirebaseFirestore fStore;                   //variables
     CheckBox isDentistBox, isPatientBox;
     String userIDField;
 
@@ -50,7 +42,7 @@ public class Register extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);                     //onCreate method to set content view
         setContentView(R.layout.activity_register);
 
         fAuth = FirebaseAuth.getInstance();
@@ -60,7 +52,7 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
-        registerBtn = findViewById(R.id.registerBtn);
+        registerBtn = findViewById(R.id.registerBtn);           //set variables
         goToLogin = findViewById(R.id.goToLogin);
 
 
@@ -72,12 +64,12 @@ public class Register extends AppCompatActivity {
         cardThree = findViewById(R.id.cardThree);
         cardFour = findViewById(R.id.cardFour);
 
-        inputChange();
+        inputChange();              //calls method to check for changes
 
         isPatientBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
+                if (compoundButton.isChecked()) {                                       //conditional check to ensure only one box can be selected at a time
                     isDentistBox.setChecked(false);
                 }
             }
@@ -93,13 +85,13 @@ public class Register extends AppCompatActivity {
         });
 
         DocumentReference accountRequestsRef = fStore.collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
-
+                                                                                            //reference to counter
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 emptyNameCheck = checkField(fullName);
                 emptyEmailCheck = checkField(email);
-                emptyPasswordCheck = checkField(password);
+                emptyPasswordCheck = checkField(password);      //check fields
                 emptyPhoneNumberCheck = checkField(phone);
 
                 if (emptyNameCheck && emptyEmailCheck && emptyPasswordCheck && emptyPhoneNumberCheck){
@@ -109,54 +101,45 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Empty fields exist", Toast.LENGTH_SHORT).show();
                 }
 
-                if (!(isDentistBox.isChecked() || isPatientBox.isChecked())) {
+                if (!(isDentistBox.isChecked() || isPatientBox.isChecked())) {      //error handling
                     Toast.makeText(Register.this, "Select an Account Type", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (validEmail && validPhoneNumber && validPassword && noEmptyFieldsExist) {
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                userIDField = fAuth.getCurrentUser().getUid();
-                                Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
+                if (validEmail && validPhoneNumber && validPassword && noEmptyFieldsExist) {        //checks conditions are met to submit
+                    Toast.makeText(Register.this, "Registration form submitted, account will be created subject to admin approval", Toast.LENGTH_LONG).show();
 
-                                DocumentReference df = fStore.collection("Users").document(email.getText().toString());
-                                accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(1));
-                                Map<String, Object> userInfo = new HashMap<>();
-                                //access level
-                                if (isDentistBox.isChecked()) {
-                                    userInfo.put("FullName", fullName.getText().toString());
-                                    userInfo.put("UserEmail", email.getText().toString());
-                                    userInfo.put("Password", password.getText().toString());
-                                    userInfo.put("PhoneNumber", phone.getText().toString());
-                                    userInfo.put("UserType", "Dentist");
-                                    //userInfo.put( "Consent", true);
-                                    //push userID ?
-                                    finish();
-                                    startActivity(new Intent(Register.this, Login.class));
-                                    df.set(userInfo);
-                                }
-                                if (isPatientBox.isChecked()) {
-                                    userInfo.put("FullName", fullName.getText().toString());
-                                    userInfo.put("UserEmail", email.getText().toString());
-                                    userInfo.put("Password", password.getText().toString());
-                                    userInfo.put("PhoneNumber", phone.getText().toString());
-                                    userInfo.put("UserType", "Patient");
-                                    //userInfo.put( "Consent", true);
-                                    finish();
-                                    startActivity(new Intent(Register.this, Login.class));
-                                    df.set(userInfo);
-                                }
-                            }
-                            else{
-                                Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                                //ensure that user is deleted from authentication tab - details will not be stored
-                            }
-                        }
-
-                    });
+                    DocumentReference df = fStore.collection("Users").document(email.getText().toString());
+                    accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(1)); //increment counter
+                    Map<String, Object> userInfo = new HashMap<>();
+                    //access level
+                    if (isDentistBox.isChecked()) {
+                        userInfo.put("FullName", fullName.getText().toString());
+                        userInfo.put("UserEmail", email.getText().toString());
+                        userInfo.put("Password", password.getText().toString());
+                        userInfo.put("PhoneNumber", phone.getText().toString());
+                        userInfo.put("UserType", "Dentist");
+                        //userInfo.put( "Consent", true);
+                        //push userID ?
+                        finish();
+                        startActivity(new Intent(Register.this, Login.class));
+                        df.set(userInfo);
+                    }
+                    if (isPatientBox.isChecked()) {                                             //writes to firebase with the correct account type
+                        userInfo.put("FullName", fullName.getText().toString());
+                        userInfo.put("UserEmail", email.getText().toString());
+                        userInfo.put("Password", password.getText().toString());
+                        userInfo.put("PhoneNumber", phone.getText().toString());
+                        userInfo.put("UserType", "Patient");
+                        //userInfo.put( "Consent", true);
+                        finish();
+                        startActivity(new Intent(Register.this, Login.class));
+                        df.set(userInfo);
+                    }
+                }
+                else{
+                    Toast.makeText(Register.this, "Error creating account request", Toast.LENGTH_SHORT).show();
+                    //ensure that user is deleted from authentication tab - details will not be stored
                 }
 
             }
@@ -165,7 +148,7 @@ public class Register extends AppCompatActivity {
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));        //navigate to login
             }
         });
 
@@ -174,7 +157,7 @@ public class Register extends AppCompatActivity {
     public boolean checkField(EditText textField) {
         if (textField.getText().toString().isEmpty()) {
             textField.setError("Error");
-            valid = false;
+            valid = false;                                          //check fields
         } else {
             valid = true;
         }
@@ -187,7 +170,7 @@ public class Register extends AppCompatActivity {
 
         //check for whitespace
         for (char currentChar : Email.toCharArray()) {
-            isSpace = Character.isWhitespace(currentChar);
+            isSpace = Character.isWhitespace(currentChar);          //email format check
         }
         Pattern email_chars = Pattern.compile(emailRegex);
         Matcher email_m = email_chars.matcher(Email);
@@ -206,14 +189,14 @@ public class Register extends AppCompatActivity {
         //8 characters
         if (PassLength >= 8 && PassLength <= 15 && !isSpace) {
             isAtLeast8 = true;
-            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+            cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));       //password format check
         } else {
             isAtLeast8 = false;
             cardOne.setCardBackgroundColor(Color.parseColor(getString(R.color.colorDefault)));
 
         }
         //check for whitespace
-        for (char currentChar : Password.toCharArray()) {
+        for (char currentChar : Password.toCharArray()) {           //to avoid spoofing
             isSpace = Character.isWhitespace(currentChar);
         }
 
@@ -265,7 +248,7 @@ public class Register extends AppCompatActivity {
         int PhoneNumberLength = PhoneNumber.length();
 
         for (char currentChar : PhoneNumber.toCharArray()) {
-            isSpace = Character.isWhitespace(currentChar);
+            isSpace = Character.isWhitespace(currentChar);          //phone number format check
         }
 
         if (PhoneNumberLength == 11 && !isSpace) {
@@ -289,7 +272,7 @@ public class Register extends AppCompatActivity {
                     passwordCheck();
                 }
 
-                @Override
+                @Override                                           //checks for password changes
                 public void afterTextChanged(Editable s) {
 
                 }
@@ -305,7 +288,7 @@ public class Register extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int count, int after) {
                     emailCheck();
                 }
-
+                                                            //checks for email changes
                 @Override
                 public void afterTextChanged(Editable s) {
 
@@ -321,7 +304,7 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int count, int after) {
                     phoneNumberCheck();
-                }
+                }                                   //check for changes in the phone number
 
                 @Override
                 public void afterTextChanged(Editable s) {

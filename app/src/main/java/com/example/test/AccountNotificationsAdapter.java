@@ -2,7 +2,7 @@ package com.example.test;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +13,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,7 +47,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.activity_notify_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.activity_notify_item, parent, false);        //onCreate method to set content view
         return new MyViewHolder(v);
     }
 
@@ -56,7 +55,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         UsersData user = list.get(position);
         holder.fullName.setText(user.FullName);
-        holder.UserEmail.setText(user.UserEmail);
+        holder.UserEmail.setText(user.UserEmail);               //sets the holder values
         holder.UserType.setText(user.UserType);
         holder.PhoneNumber.setText(user.PhoneNumber);
         holder.Password.setText(user.Password);
@@ -65,23 +64,23 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
             @Override
             public void onClick(View v) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(holder.itemView.getContext())
-                        .setContentHolder(new ViewHolder(R.layout.update_popup))
-                        .setExpanded(true, 1300)
+                        .setContentHolder(new ViewHolder(R.layout.update_popup))                    //on-click listener to display edit pop-up
+                        .setExpanded(true, 1900) //sets the size of pop-up
                         .create();
 
                 View view = dialogPlus.getHolderView();
 
                 EditText name = view.findViewById(R.id.txtFullName);
                 EditText email = view.findViewById(R.id.txtEmailAddress);
-                EditText password = view.findViewById(R.id.txtPassword);
+                EditText password = view.findViewById(R.id.txtPassword);        //sets the edit text pop-up values
                 EditText phone = view.findViewById(R.id.txtPhoneNumber);
                 EditText userType = view.findViewById(R.id.txtUserType);
 
-                Button btnUpdate = view.findViewById(R.id.btnUpdate);
+                Button btnUpdate = view.findViewById(R.id.btnAccUpdate);
 
                 name.setText(user.getFullname());
                 email.setText(user.getUserEmail());
-                password.setText(user.getPassword());
+                password.setText(user.getPassword());               //reads the account details
                 phone.setText(user.getPhoneNumber());
                 userType.setText(user.getUserType());
 
@@ -91,7 +90,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(holder.fullName.getContext());
-                        builder.setTitle("Are you sure?");
+                        builder.setTitle("Are you sure?");                                                          //produces delete process dialog
                         builder.setMessage("Deleted accounts can't be recovered.");
 
                         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -100,15 +99,15 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                                 DocumentReference dfDeleteBtn = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());
                                 DocumentReference accountRequestsRefBtn = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
 
-
+                                                                                                                                        //references the collection to delete from
                                 dfDeleteBtn.delete();
-                                accountRequestsRefBtn.update("NumOfAccRequests", FieldValue.increment(-1));
+                                accountRequestsRefBtn.update("NumOfAccRequests", FieldValue.increment(-1)); //decrements the counter
                             }
                         });
 
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which) {                                //cancels the delete
                                 //Toast.makeText(holder.fullName.getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -120,7 +119,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                     @Override
                     public void onClick(View v) {
                         DocumentReference dfApprove = FirebaseFirestore.getInstance().collection("approvedUsers").document(email.getText().toString());
-                        DocumentReference dfDelete = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());
+                        DocumentReference dfDelete = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());                  //reference to firebase collection
                         DocumentReference accountRequestsRef = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
 
                         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -129,15 +128,15 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
                                 if (task.isSuccessful()) {
                                     Map<String, Object> map = new HashMap<>();
                                     map.put("FullName", name.getText().toString());
-                                    map.put("UserEmail", email.getText().toString());
-                                    map.put("Password", password.getText().toString());
+                                    map.put("UserEmail", email.getText().toString());   //creates a user account with the following details stored to firebase
+                                    map.put("Password", password.getText().toString()); //account request is deleted
                                     map.put("PhoneNumber", phone.getText().toString());
                                     map.put("UserType", userType.getText().toString());
+                                    dfDelete.delete(); // bug where user is moved but not deleted
                                     dfApprove.set(map);
                                     ////push userID ?
-                                    dfDelete.delete();
 
-                                    accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1));
+                                    accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1)); //counter decremented
 
 
                                     Toast.makeText(holder.fullName.getContext(), "Account Approved", Toast.LENGTH_SHORT).show();
@@ -160,7 +159,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView fullName, UserEmail, UserType, Password, PhoneNumber;
+        TextView fullName, UserEmail, UserType, Password, PhoneNumber;  //set variables
         Button btnEdit, btnDelete;
 
 
@@ -168,7 +167,7 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
             super(itemView);
 
             fullName = itemView.findViewById(R.id.tvFullName);
-            UserEmail = itemView.findViewById(R.id.tvUserEmail);
+            UserEmail = itemView.findViewById(R.id.tvUserEmail);    //set to relevant layout resource files
             UserType = itemView.findViewById(R.id.tvUserType);
             Password = itemView.findViewById(R.id.tvPassword);
             PhoneNumber = itemView.findViewById(R.id.tvPhoneNum);

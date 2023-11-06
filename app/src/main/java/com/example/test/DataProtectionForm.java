@@ -15,13 +15,13 @@ public class DataProtectionForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data_protection_form);
+        setContentView(R.layout.activity_data_protection_form);                 //onCreate method to set content view
         agreeButton = findViewById(R.id.agreeBtn);
         declineButton = findViewById(R.id.declineBtn);
 
         agreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {                                                        //agree and decline buttons for data protection form
                 startActivity(new Intent(   DataProtectionForm.this, Register.class));
             }
         });

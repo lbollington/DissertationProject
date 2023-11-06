@@ -25,7 +25,7 @@ public class UsersData {
 
     public String getUserEmail(){return UserEmail;}
 
-    public String getPassword(){return Password;}
+    public String getPassword(){return Password;}                   //getters and setters for account adapter
 
     public String getPhoneNumber(){return PhoneNumber;}
 
