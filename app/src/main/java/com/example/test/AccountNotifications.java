@@ -8,20 +8,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -33,10 +41,8 @@ public class AccountNotifications extends AppCompatActivity {
     FirebaseFirestore firestore;
     String userId;
 
-    Button docBack;
-    SwipeRefreshLayout refreshLayout;
     RecyclerView recyclerView;
-    FirebaseFirestore db;                                   //defined variables
+    FirebaseFirestore db;
     AccountNotificationsAdapter myAdapter;
     ArrayList<UsersData> list;
     ProgressDialog progressDialog;
@@ -44,35 +50,25 @@ public class AccountNotifications extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notify);               //onCreate method to set the content view
+        setContentView(R.layout.activity_notify);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);                    //process dialog in the event there is no records in the recyclerview
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching Data...");
         progressDialog.show();
 
-        docBack = findViewById(R.id.docBackAcc);
         recyclerView = findViewById(R.id.userList);
-        recyclerView.setHasFixedSize(true);                                     //setting variables
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<UsersData>();
 
         myAdapter = new AccountNotificationsAdapter(AccountNotifications.this, list);
-                                                                                                //initialising adapter
+
         recyclerView.setAdapter(myAdapter);
 
-        EventChangeListener();                                                      //calling method
-
-        docBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance();
-                startActivity(new Intent(recyclerView.getContext(), AdminActivity.class));          //on-click listener to navigate back to Admin dashboard
-                finish();
-            }
-        });
+        EventChangeListener();
 
 
     }
@@ -86,7 +82,7 @@ public class AccountNotifications extends AppCompatActivity {
                         if (error != null) {
                             if(progressDialog.isShowing())
                                 progressDialog.dismiss();
-                            Log.e("Firestore error", error.getMessage());                                                     //loops for document changes and orders by ascending fullname
+                            Log.e("Firestore error", error.getMessage());
                             return;
                         }
 
@@ -99,7 +95,7 @@ public class AccountNotifications extends AppCompatActivity {
                             }
 
                             myAdapter.notifyDataSetChanged();
-                            if(progressDialog.isShowing())                               //process dialog shown
+                            if(progressDialog.isShowing())
                                 progressDialog.dismiss();
 
                         }
