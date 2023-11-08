@@ -1,110 +1,105 @@
 package com.example.test;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class AccountNotifications extends AppCompatActivity {
-    TextView accountRequestOne, accountRequestTwo, accountRequestThree, accountRequestFour, accountRequestFive, accountRequestSix, accountRequestSeven, accountRequestEight;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firestore;
-    String userId;
-
     RecyclerView recyclerView;
     FirebaseFirestore db;
     AccountNotificationsAdapter myAdapter;
     ArrayList<UsersData> list;
-    ProgressDialog progressDialog;
+    AlertDialog.Builder builder;
+    AlertDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Fetching Data...");
+        Button backToAdmin = findViewById(R.id.docBackAcc);
+        backToAdmin.setOnClickListener(view -> {
+            FirebaseAuth.getInstance();
+            startActivity(new Intent(AccountNotifications.this, AdminActivity.class));
+            finish();
+        });
+
+        progressDialog = getDialogProgressBar().create();
         progressDialog.show();
+        progressDialog.setCanceledOnTouchOutside(true);
 
         recyclerView = findViewById(R.id.userList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
-        list = new ArrayList<UsersData>();
+        list = new ArrayList<>();
 
         myAdapter = new AccountNotificationsAdapter(AccountNotifications.this, list);
 
         recyclerView.setAdapter(myAdapter);
 
         EventChangeListener();
-
-
     }
+    public AlertDialog.Builder getDialogProgressBar(){
+        if (builder == null) {
+            builder = new AlertDialog.Builder(this);
 
+            builder.setTitle("No requests double-click to dismiss and exit...");
+
+            ProgressBar progressBar = new ProgressBar(AccountNotifications.this);
+            ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            progressBar.setLayoutParams(lp);
+            builder.setView(progressBar);
+        }
+        return builder;
+    }
     private void EventChangeListener() {
         db.collection("Users").orderBy("FullName", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                .addSnapshotListener((value, error) -> {
 
-                        if (error != null) {
-                            if(progressDialog.isShowing())
-                                progressDialog.dismiss();
-                            Log.e("Firestore error", error.getMessage());
-                            return;
-                        }
+                    if (error != null) {
+                        if(progressDialog.isShowing())
+                            progressDialog.dismiss();
+                        Log.e("Firestore error", Objects.requireNonNull(error.getMessage()));
+                        return;
+                    }
 
-                        for (DocumentChange dc : value.getDocumentChanges()) {
+                    assert value != null;
+                    for (DocumentChange dc : value.getDocumentChanges()) {
 
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                                list.add(dc.getDocument().toObject(UsersData.class));
-
-                            }
-
-                            myAdapter.notifyDataSetChanged();
-                            if(progressDialog.isShowing())
-                                progressDialog.dismiss();
+                            list.add(dc.getDocument().toObject(UsersData.class));
 
                         }
+                        //relevant for this use case
+                        myAdapter.notifyDataSetChanged();
+                        if(progressDialog.isShowing())
+                            progressDialog.dismiss();
+
                     }
                 });
 
-
-                    }
-
-
-                }
+    }
+}
 

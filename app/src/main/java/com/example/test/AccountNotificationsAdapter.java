@@ -1,8 +1,6 @@
 package com.example.test;
 
 import android.content.Context;
-import android.content.DialogInterface;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.google.android.gms.tasks.OnCompleteListener;
-
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,94 +51,77 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
         holder.PhoneNumber.setText(user.PhoneNumber);
         holder.Password.setText(user.Password);
 
-        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.itemView.getContext())
-                        .setContentHolder(new ViewHolder(R.layout.update_popup))                    //on-click listener to display edit pop-up
-                        .setExpanded(true, 1900) //sets the size of pop-up
-                        .create();
+        holder.btnEdit.setOnClickListener(v -> {
+            final DialogPlus dialogPlus = DialogPlus.newDialog(holder.itemView.getContext())
+                    .setContentHolder(new ViewHolder(R.layout.update_popup))                    //on-click listener to display edit pop-up
+                    .setExpanded(true, 1900) //sets the size of pop-up
+                    .create();
 
-                View view = dialogPlus.getHolderView();
+            View view = dialogPlus.getHolderView();
 
-                EditText name = view.findViewById(R.id.txtFullName);
-                EditText email = view.findViewById(R.id.txtEmailAddress);
-                EditText password = view.findViewById(R.id.txtPassword);        //sets the edit text pop-up values
-                EditText phone = view.findViewById(R.id.txtPhoneNumber);
-                EditText userType = view.findViewById(R.id.txtUserType);
+            EditText name = view.findViewById(R.id.txtFullName);
+            EditText email = view.findViewById(R.id.txtEmailAddress);
+            EditText password = view.findViewById(R.id.txtPassword);        //sets the edit text pop-up values
+            EditText phone = view.findViewById(R.id.txtPhoneNumber);
+            EditText userType = view.findViewById(R.id.txtUserType);
 
-                Button btnUpdate = view.findViewById(R.id.btnAccUpdate);
+            Button btnUpdate = view.findViewById(R.id.btnAccUpdate);
 
-                name.setText(user.getFullname());
-                email.setText(user.getUserEmail());
-                password.setText(user.getPassword());               //reads the account details
-                phone.setText(user.getPhoneNumber());
-                userType.setText(user.getUserType());
+            name.setText(user.getFullname());
+            email.setText(user.getUserEmail());
+            password.setText(user.getPassword());               //reads the account details
+            phone.setText(user.getPhoneNumber());
+            userType.setText(user.getUserType());
 
-                dialogPlus.show();
+            dialogPlus.show();
 
-                holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.fullName.getContext());
-                        builder.setTitle("Are you sure?");                                                          //produces delete process dialog
-                        builder.setMessage("Deleted accounts can't be recovered.");
+            holder.btnDelete.setOnClickListener(v1 -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.fullName.getContext());
+                builder.setTitle("Are you sure?");                                                          //produces delete process dialog
+                builder.setMessage("Deleted accounts can't be recovered.");
 
-                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                DocumentReference dfDeleteBtn = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());
-                                DocumentReference accountRequestsRefBtn = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
+                builder.setPositiveButton("Delete", (dialog, which) -> {
+                    DocumentReference dfDeleteBtn = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());
+                    DocumentReference accountRequestsRefBtn = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
 
-                                                                                                                                        //references the collection to delete from
-                                dfDeleteBtn.delete();
-                                accountRequestsRefBtn.update("NumOfAccRequests", FieldValue.increment(-1)); //decrements the counter
-                            }
-                        });
+                                                                                                                            //references the collection to delete from
+                    dfDeleteBtn.delete();
+                    accountRequestsRefBtn.update("NumOfAccRequests", FieldValue.increment(-1)); //decrements the counter
+                });
 
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {                                //cancels the delete
-                                //Toast.makeText(holder.fullName.getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        builder.show();
+                builder.setNegativeButton("Cancel", (dialog, which) -> {                                //cancels the delete
+                    //Toast.makeText(holder.fullName.getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+                });
+                builder.show();
+            });
+
+            btnUpdate.setOnClickListener(v12 -> {
+                DocumentReference dfApprove = FirebaseFirestore.getInstance().collection("approvedUsers").document(email.getText().toString());
+                DocumentReference dfDelete = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());                  //reference to firebase collection
+                DocumentReference accountRequestsRef = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
+
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("FullName", name.getText().toString());
+                        map.put("UserEmail", email.getText().toString());   //creates a user account with the following details stored to firebase
+                        map.put("Password", password.getText().toString()); //account request is deleted
+                        map.put("PhoneNumber", phone.getText().toString());
+                        map.put("UserType", userType.getText().toString());
+                        dfDelete.delete(); // bug where user is moved but not deleted
+                        dfApprove.set(map);
+                        ////push userID ?
+
+                        accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1)); //counter decremented
+
+
+                        Toast.makeText(holder.fullName.getContext(), "Account Approved", Toast.LENGTH_SHORT).show();
+                        dialogPlus.dismiss();
                     }
                 });
 
-                btnUpdate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DocumentReference dfApprove = FirebaseFirestore.getInstance().collection("approvedUsers").document(email.getText().toString());
-                        DocumentReference dfDelete = FirebaseFirestore.getInstance().collection("Users").document(email.getText().toString());                  //reference to firebase collection
-                        DocumentReference accountRequestsRef = FirebaseFirestore.getInstance().collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
+            });
 
-                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Map<String, Object> map = new HashMap<>();
-                                    map.put("FullName", name.getText().toString());
-                                    map.put("UserEmail", email.getText().toString());   //creates a user account with the following details stored to firebase
-                                    map.put("Password", password.getText().toString()); //account request is deleted
-                                    map.put("PhoneNumber", phone.getText().toString());
-                                    map.put("UserType", userType.getText().toString());
-                                    dfDelete.delete(); // bug where user is moved but not deleted
-                                    dfApprove.set(map);
-                                    ////push userID ?
-
-                                    accountRequestsRef.update("NumOfAccRequests", FieldValue.increment(-1)); //counter decremented
-
-
-                                    Toast.makeText(holder.fullName.getContext(), "Account Approved", Toast.LENGTH_SHORT).show();
-                                    dialogPlus.dismiss();
-                                }
-                            }
-                        });
-
-                    }
-                });
-            }
         });
 
     }
@@ -171,8 +145,8 @@ public class AccountNotificationsAdapter extends RecyclerView.Adapter<AccountNot
             UserType = itemView.findViewById(R.id.tvUserType);
             Password = itemView.findViewById(R.id.tvPassword);
             PhoneNumber = itemView.findViewById(R.id.tvPhoneNum);
-            btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
-            btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
 
         }
     }
