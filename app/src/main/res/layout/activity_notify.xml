@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="323dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:background="@null"
         android:text="@string/back"
         android:textColor="@color/blue"
