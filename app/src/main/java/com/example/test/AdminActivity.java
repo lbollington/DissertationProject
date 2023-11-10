@@ -15,10 +15,10 @@ import java.util.Objects;
 
 
 public class AdminActivity extends AppCompatActivity {
-    TextView notificationAppNum, notificationAccNum;
+    TextView notificationAppNum, notificationAccNum, FullName, Email;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-    String userId;
+    String userId, fullName, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,19 @@ public class AdminActivity extends AppCompatActivity {
         userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         notificationAppNum = findViewById(R.id.notificationAppNumber);
         notificationAccNum = findViewById(R.id.notificationAccNumber);
+
+        FullName = findViewById(R.id.nameDisplay);
+        Email = findViewById(R.id.emailDisplay);
+        //notificationPassNum = findViewById(R.id.notificationPassNumber);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            fullName = Objects.requireNonNull(extras.getString("FullName"));
+            userEmail = Objects.requireNonNull(extras.getString("UserEmail"));
+        }
+
+        FullName.setText(fullName);
+        Email.setText(userEmail);
 
         DocumentReference accRequests = firestore.collection("accountRequestsNumber").document("Lo8vvjq2m97ySrs2L1HA");
         accRequests.addSnapshotListener(this, (documentSnapshot, e) -> {
@@ -48,7 +61,10 @@ public class AdminActivity extends AppCompatActivity {
         Button addPatient = findViewById(R.id.btnAddPatient);
         addPatient.setOnClickListener(view -> {
             FirebaseAuth.getInstance();
-            startActivity(new Intent(AdminActivity.this, AccountNotifications.class));
+            Intent accountNotifyActivity = new Intent(AdminActivity.this, AccountNotifications.class);
+            accountNotifyActivity.putExtra("FullName", fullName);
+            accountNotifyActivity.putExtra("UserEmail", userEmail);
+            startActivity(accountNotifyActivity);
         });
 
         Button schedule = findViewById(R.id.btnSchedule);
