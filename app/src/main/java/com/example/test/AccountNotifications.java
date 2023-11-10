@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -28,18 +29,12 @@ public class AccountNotifications extends AppCompatActivity {
     ArrayList<UsersData> list;
     AlertDialog.Builder builder;
     AlertDialog progressDialog;
+    String FullName, Email, fullName, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
-
-        Button backToAdmin = findViewById(R.id.docBackAcc);
-        backToAdmin.setOnClickListener(view -> {
-            FirebaseAuth.getInstance();
-            startActivity(new Intent(AccountNotifications.this, AdminActivity.class));
-            finish();
-        });
 
         progressDialog = getDialogProgressBar().create();
         progressDialog.show();
@@ -53,8 +48,32 @@ public class AccountNotifications extends AppCompatActivity {
         list = new ArrayList<>();
 
         myAdapter = new AccountNotificationsAdapter(AccountNotifications.this, list);
-
         recyclerView.setAdapter(myAdapter);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            fullName = Objects.requireNonNull(extras.getString("FullName"));
+            userEmail = Objects.requireNonNull(extras.getString("UserEmail"));
+        }
+
+        DocumentReference df = db.collection("approvedUsers").document(userEmail);
+        //extract data
+        df.get().addOnSuccessListener(documentSnapshot -> {
+            Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
+
+            FullName = Objects.requireNonNull(documentSnapshot.get("FullName")).toString();
+            Email = Objects.requireNonNull(documentSnapshot.get("UserEmail")).toString();
+
+            Button backToAdmin = findViewById(R.id.docBackAcc);
+            backToAdmin.setOnClickListener(view -> {
+                FirebaseAuth.getInstance();
+                Intent backToAdminActivity = new Intent(AccountNotifications.this, AdminActivity.class);
+                backToAdminActivity.putExtra("FullName", FullName);
+                backToAdminActivity.putExtra("UserEmail", Email);
+                startActivity(backToAdminActivity);
+                finish();
+            });
+        });
 
         EventChangeListener();
     }

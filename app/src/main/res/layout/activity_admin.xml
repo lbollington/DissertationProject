@@ -170,4 +170,26 @@
         app:layout_constraintTop_toTopOf="@+id/topBackground"
         app:srcCompat="@drawable/profile_pic" />
 
+    <TextView
+        android:id="@+id/nameDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5917e1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/emailDisplay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/emailDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5917e1"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/nameDisplay"
+        app:layout_constraintStart_toStartOf="@+id/nameDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/nameDisplay" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
