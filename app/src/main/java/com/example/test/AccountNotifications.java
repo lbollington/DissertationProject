@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,6 +93,7 @@ public class AccountNotifications extends AppCompatActivity {
         }
         return builder;
     }
+    @SuppressLint("NotifyDataSetChanged")
     private void EventChangeListener() {
         db.collection("Users").orderBy("FullName", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
@@ -111,7 +113,6 @@ public class AccountNotifications extends AppCompatActivity {
                             list.add(dc.getDocument().toObject(UsersData.class));
 
                         }
-                        //relevant for this use case
                         myAdapter.notifyDataSetChanged();
                         if(progressDialog.isShowing())
                             progressDialog.dismiss();
