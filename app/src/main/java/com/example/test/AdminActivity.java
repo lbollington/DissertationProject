@@ -69,8 +69,10 @@ public class AdminActivity extends AppCompatActivity {
 
         Button schedule = findViewById(R.id.btnSchedule);
         schedule.setOnClickListener(view -> {
-            FirebaseAuth.getInstance();
-            startActivity(new Intent(AdminActivity.this, AppointmentNotifications.class));
+            Intent appNotifyActivity = new Intent(AdminActivity.this, AppointmentNotifications.class);
+            appNotifyActivity.putExtra("FullName", fullName);
+            appNotifyActivity.putExtra("UserEmail", userEmail);
+            startActivity(appNotifyActivity);
         });
 
         Button logout = findViewById(R.id.logoutAdminBtn);

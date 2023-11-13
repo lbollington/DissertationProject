@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -23,14 +24,13 @@ import java.util.Objects;
 
 
 public class AppointmentNotifications extends AppCompatActivity {
-
-    Button docBack;
     RecyclerView recyclerViewApp;
     FirebaseFirestore db;
     AppointmentNotificationsAdapter myAppAdapter;
     ArrayList<AppUsersData> userAppList;
     AlertDialog.Builder builder;
     AlertDialog progressDialog;
+    String FullName, Email, fullName, userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,6 @@ public class AppointmentNotifications extends AppCompatActivity {
         progressDialog = getDialogProgressBar().create();
         progressDialog.show();
         progressDialog.setCanceledOnTouchOutside(true);
-
-        docBack = findViewById(R.id.docBackApp);
 
         recyclerViewApp = findViewById(R.id.userListAppointments);
         recyclerViewApp.setHasFixedSize(true);
@@ -54,15 +52,34 @@ public class AppointmentNotifications extends AppCompatActivity {
 
         recyclerViewApp.setAdapter(myAppAdapter);
 
-        AppEventChangeListener();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            fullName = Objects.requireNonNull(extras.getString("FullName"));
+            userEmail = Objects.requireNonNull(extras.getString("UserEmail"));
+        }
 
-        docBack.setOnClickListener(v -> {
-            FirebaseAuth.getInstance();
-            startActivity(new Intent(recyclerViewApp.getContext(), AdminActivity.class));
-            finish();
+        DocumentReference df = db.collection("approvedUsers").document(userEmail);
+        //extract data
+        df.get().addOnSuccessListener(documentSnapshot -> {
+            Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
+
+            FullName = Objects.requireNonNull(documentSnapshot.get("FullName")).toString();
+            Email = Objects.requireNonNull(documentSnapshot.get("UserEmail")).toString();
+
+            Button backToAdmin = findViewById(R.id.docBackApp);
+            backToAdmin.setOnClickListener(view -> {
+                FirebaseAuth.getInstance();
+                Intent backToAdminActivity = new Intent(AppointmentNotifications.this, AdminActivity.class);
+                backToAdminActivity.putExtra("FullName", FullName);
+                backToAdminActivity.putExtra("UserEmail", Email);
+                startActivity(backToAdminActivity);
+                finish();
+            });
         });
 
+        AppEventChangeListener();
     }
+
     public AlertDialog.Builder getDialogProgressBar(){
         if (builder == null) {
             builder = new AlertDialog.Builder(this);
