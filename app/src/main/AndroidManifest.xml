@@ -42,10 +42,8 @@
         <activity android:name=".Register" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".AppSchedule" />
         <activity android:name=".RegisterUser" />
         <activity android:name=".AppRequest" />
-        <activity android:name=".AppCalendar" />
         <activity android:name=".AccountNotifications" />
         <activity android:name=".AppointmentNotifications" />
         <activity android:name=".DentistUpload" />
