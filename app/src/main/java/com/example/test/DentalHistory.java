@@ -27,7 +27,6 @@ public class DentalHistory extends AppCompatActivity {
     FirebaseFirestore db;
     DentalHistoryAdapter documentAdapter;
     ArrayList<DentalHistoryData> list_of_documents;
-    Button docBack;
     AlertDialog.Builder builder;
     AlertDialog progressDialog;
 
@@ -40,10 +39,7 @@ public class DentalHistory extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCanceledOnTouchOutside(true);
 
-        data = DentistUpload.getInstance().getData();
-
         recyclerView = findViewById(R.id.documentList);
-        docBack = findViewById(R.id.docBack);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,14 +47,14 @@ public class DentalHistory extends AppCompatActivity {
         list_of_documents = new ArrayList<>();
 
         documentAdapter = new DentalHistoryAdapter(DentalHistory.this, list_of_documents);
-
         recyclerView.setAdapter(documentAdapter);
 
         EventChangeListener();
 
+        Button docBack = findViewById(R.id.docBack);
         docBack.setOnClickListener(v -> {
             FirebaseAuth.getInstance();
-            startActivity(new Intent(recyclerView.getContext(), MainActivity.class));
+            startActivity(new Intent(DentalHistory.this, MainActivity.class));
             finish();
         });
 
@@ -81,6 +77,7 @@ public class DentalHistory extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void EventChangeListener() {
+        //data = DentistUpload.getInstance().getData();
         db.collection(data).orderBy("AppName", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
 
