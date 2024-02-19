@@ -25,13 +25,14 @@ import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     EditText password, email;
-    TextView goToPasswordReset;
-    Button loginBtn, goToRegister;
+    TextView goToPasswordReset, goToRegister;
+    Button loginBtn;
     boolean valid = true;
     FirebaseAuth fAuth;                             //variables
     FirebaseFirestore fStore;
     FirebaseDatabase database;
     String FullName, Email;
+    TextView appName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        appName = findViewById(R.id.appName);
         password = findViewById(R.id.loginPassword);    //set variables
         email = findViewById(R.id.loginEmail);
         loginBtn = findViewById(R.id.loginBtn);
